@@ -2,8 +2,11 @@ package com.kbstar.controller;
 
 import com.kbstar.dto.Cust;
 import com.kbstar.dto.Marker;
+import com.kbstar.service.MarkerService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+@Slf4j
 @RestController
 public class AjaxImplController {
     @RequestMapping("/getservertime")
@@ -52,22 +56,17 @@ public class AjaxImplController {
         return ja;
     }
 
+    @Autowired
+    MarkerService service;
     @RequestMapping("/markers")
     public Object markers(String loc) {
-        List<Marker> list = new ArrayList<>();
-        if(loc.equals("s")) {
-            list.add(new Marker(100, "국밥", "http://www.nate.com",37.577209, 126.972814, "a.jpg", "s"));
-            list.add(new Marker(101, "짬뽕", "http://www.naver.com",37.574209, 126.971814, "b.jpg", "s"));
-            list.add(new Marker(102, "껍데기", "http://www.daum.net",37.579209, 126.972214, "c.jpg", "s"));
-        } else if(loc.equals("b")) {
-            list.add(new Marker(103, "밥국", "http://www.nate.com",35.157439, 129.051139, "a.jpg", "b"));
-            list.add(new Marker(104, "뽕짬", "http://www.naver.com",35.157239, 129.052139, "b.jpg", "b"));
-            list.add(new Marker(105, "데기껍", "http://www.daum.net",35.157839, 129.053139, "c.jpg", "b"));
-        } else if(loc.equals("j")) {
-            list.add(new Marker(106, "박북", "http://www.nate.com",33.362666, 126.525166, "a.jpg", "j"));
-            list.add(new Marker(107, "빵쫌", "http://www.naver.com",33.363666, 126.525166, "b.jpg", "j"));
-            list.add(new Marker(108, "기데껍", "http://www.daum.net",33.364666, 126.521166, "c.jpg", "j"));
-        };
+        List<Marker> list = null;
+        try {
+            list = service.getall();
+        } catch (Exception e) {
+            log.info("error");
+        }
+
 
         JSONArray ja = new JSONArray();
         for(Marker obj:list){

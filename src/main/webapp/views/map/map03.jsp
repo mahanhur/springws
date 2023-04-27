@@ -83,7 +83,7 @@
         });
         // infoWindow
         var iwContent = '<h2>'+positions[i].title+'</h2>';
-        iwContent += '<img src="/img/'+positions[i].img+'" style="width:50px">';
+        iwContent += '<img src="/uimg/'+positions[i].img+'" style="width:50px">';
 
         var infowindow = new kakao.maps.InfoWindow({
           position : markerPosition,

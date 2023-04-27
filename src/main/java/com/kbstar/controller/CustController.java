@@ -1,7 +1,9 @@
 package com.kbstar.controller;
 
 import com.kbstar.dto.Cust;
+import com.kbstar.service.CustService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,14 +37,18 @@ public class CustController {
         model.addAttribute("center", dir +"add");
         return "index";
     }
+
+    @Autowired
+    CustService service;
     @RequestMapping("/getall")
     public String getall(Model model) {
-        List<Cust> list = new ArrayList<>();
-        list.add(new Cust("id01", "pwd01", "james1"));
-        list.add(new Cust("id02", "pwd02", "james2"));
-        list.add(new Cust("id03", "pwd03", "james3"));
-        list.add(new Cust("id04", "pwd04", "james4"));
-        list.add(new Cust("id05", "pwd05", "james5"));
+        List<Cust> list = null;
+
+        try {
+            list = service.getall();
+        } catch (Exception e) {
+            log.info("error");
+        }
         model.addAttribute("clist", list);
         model.addAttribute("left", dir +"left");
         model.addAttribute("center", dir +"getall");
